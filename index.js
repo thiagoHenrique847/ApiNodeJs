@@ -14,19 +14,8 @@ const client = new MongoClient(uri, {
 });
 app.use(cors());
 
-app.post("/producao", async (req, res) => {
-  await client.connect();
-
-  await client.db("admin").command({ ping: 1 });
-
-  const database = client.db("Teste");
-  const collection = await database.collection("Pecas").find({}).toArray();
-
-  try {
-    res.status(201).send(collection);
-  } catch (error) {
-    res.status(400).send(error);
-  }
+app.post("/", async (req, res) => {
+  res.send("Teste")
 });
 
 app.get("/chart-data-pequena", async (req, res) => {
@@ -84,19 +73,5 @@ app.get("/chart-data-grande", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3100;
-app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+app.listen(PORT);
 
-async function Delete() {
-  await client.connect();
-
-  await client.db("admin").command({ ping: 1 });
-
-  const database = client.db("Teste");
-  await database
-    .collection("Pecas")
-    .deleteMany({})
-    .then(() => {
-      console.log("Sucesso");
-    })
-    .catch((err) => console.log(err));
-}
