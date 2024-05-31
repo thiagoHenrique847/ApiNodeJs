@@ -2,16 +2,28 @@ const express = require("express");
 const app = express();
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const cors = require("cors");
+const { default: mongoose } = require("mongoose");
 const uri =
   "mongodb+srv://thiagocontato1232:tNBa2wr7XO6EODbm@cluster0.ob27bb5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
+// const client = new MongoClient(uri, {
+//   serverApi: {
+//     version: ServerApiVersion.v1,
+//     strict: true,
+//     deprecationErrors: true,
+//   },
+// });
+
+async function connectDb(){
+  try {
+    await mongoose.connect(uri)
+    console.log("Sucesso");
+  } catch (error) {
+    console.log("Error", error);
+  }
+}
+connectDb()
+
 app.use(cors());
 
 app.post("/", async (req, res) => {
