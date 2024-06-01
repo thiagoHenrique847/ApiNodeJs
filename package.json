@@ -1,7 +1,7 @@
 {
   "name": "connectiongitnode",
   "version": "1.0.0",
-  "main": "api.js",
+  "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
     "vercel-build": "nodemon index.js"
