@@ -34,6 +34,10 @@ async function connectToDatabase() {
 
 connectToDatabase();
 
+app.get("/", (req, res) =>{
+  res.send("Olaa")
+})
+
 app.get("/chart-data-pequena", async (req, res) => {
   try {
     const database = client.db("AutomationMange");
