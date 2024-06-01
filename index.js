@@ -28,6 +28,7 @@ app.use(cors());
 
 app.post("/", async (req, res) => {
   res.send("Teste")
+   res.status(200);
 });
 
 app.get("/chart-data-pequena", async (req, res) => {
