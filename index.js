@@ -14,20 +14,18 @@ const uri =
 //   },
 // });
 
-async function connectDb(){
-  try {
-    await mongoose.connect(uri)
-    console.log("Sucesso");
-  } catch (error) {
-    console.log("Error", error);
-  }
-}
-connectDb()
+// try {
+//   await mongoose.connect(uri);
+//   console.log("Sucesso");
+// } catch (error) {
+//   console.log("Error", error);
+// }
 
 app.use(cors());
 
-app.post("/", async (req, res) => {
-  res.send("Teste")
+app.get("/",  (req, res) => {
+  
+  res.send("Teste");
 });
 
 app.get("/chart-data-pequena", async (req, res) => {
@@ -85,5 +83,8 @@ app.get("/chart-data-grande", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3100;
-app.listen(PORT);
+
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${port}`)
+})
 
