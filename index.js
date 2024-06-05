@@ -86,7 +86,7 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3300;
 app.listen({
   host:"0.0.0.0",
   port:PORT
-}).then(() =>{
+}, function(){
   console.log(`Servidor rodando na porta ${PORT}`)
 })
 
