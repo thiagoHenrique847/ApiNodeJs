@@ -2,17 +2,9 @@ const express = require("express");
 const app = express();
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const cors = require("cors");
-require("dotenv").config(); // to use environment variables from .env file
+const uri =
+  "mongodb+srv://thiagocontato1232:tNBa2wr7XO6EODbm@cluster0.ob27bb5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-const uri = process.env.MONGODB_URI;
-
-if (!uri) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
-  );
-}
-
-app.use(cors());
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -21,57 +13,89 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
 });
-
-async function connectToDatabase() {
-  try {
-    await client.connect();
-    console.log("Connected to MongoDB");
-  } catch (error) {
-    console.error("Error connecting to MongoDB", error);
-    process.exit(1); // Exit the process with a failure code
-  }
-}
-
-connectToDatabase();
+app.use(cors());
 
 app.get("/", async (req, res) => {
+  
+
   try {
-    const database = client.db("AutomationMange");
-    const collection = await database.collection("PecasPequenas").find({}).toArray();
-    console.log("Data from PecasPequenas:", collection);
-    res.send(collection);
+    res.status(200).send("Node js");
   } catch (error) {
-    console.error("Error fetching data from PecasPequenas:", error);
-    return res.status(500).send(error);
+    res.status(500).send(error);
+  }
+});
+app.get("/chart-data-pequena", async (req, res) => {
+  await client.connect();
+
+  await client.db("admin").command({ ping: 1 });
+
+  const database = client.db("AutomationMange");
+
+  const collection = await database
+    .collection("PecasPequenas")
+    .find({})
+    .toArray();
+
+  try {
+    res.status(200).send(collection);
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 
 app.get("/chart-data-media", async (req, res) => {
+  await client.connect();
+
+  await client.db("admin").command({ ping: 1 });
+
+  const database = client.db("AutomationMange");
+
+  const collection = await database
+    .collection("PecasMedias")
+    .find({})
+    .toArray();
+
   try {
-    const database = client.db("AutomationMange");
-    const collection = await database.collection("PecasMedias").find({}).toArray();
-    console.log("Data from PecasMedias:", collection);
     res.status(200).send(collection);
   } catch (error) {
-    console.error("Error fetching data from PecasMedias:", error);
     res.status(500).send(error);
   }
 });
 
 app.get("/chart-data-grande", async (req, res) => {
+  await client.connect();
+
+  await client.db("admin").command({ ping: 1 });
+
+  const database = client.db("AutomationMange");
+
+  const collection = await database
+    .collection("PecasGrandes")
+    .find({})
+    .toArray();
+
   try {
-    const database = client.db("AutomationMange");
-    const collection = await database.collection("PecasGrandes").find({}).toArray();
-    console.log("Data from PecasGrandes:", collection);
-    return res.status(200).send(collection);
+    res.status(200).send(collection);
   } catch (error) {
-    console.error("Error fetching data from PecasGrandes:", error);
     res.status(500).send(error);
   }
 });
 
-const PORT = process.env.PORT || 3100;
+const PORT = process.env.PORT || 3300;
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
 
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
-});
+async function Delete() {
+  await client.connect();
+
+  await client.db("admin").command({ ping: 1 });
+
+  const database = client.db("Teste");
+  await database
+    .collection("Pecas")
+    .deleteMany({})
+    .then(() => {
+      console.log("Sucesso");
+    })
+    .catch((err) => console.log(err));
+}
+// Delete()
