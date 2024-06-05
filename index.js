@@ -5,7 +5,7 @@ const cors = require("cors");
 require('dotenv').config();
 
 const uri = process.env.MONGODB_URI;
-const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3300;
+const PORT = process.env.PORT || 3300;
 
 if (!uri) {
   throw new Error('MONGODB_URI environment variable not defined');
