@@ -14,14 +14,14 @@ const client = new MongoClient(uri, {
 });
 app.use(cors());
 
-app.get("/", async (req, res) => {
+app.use("/", async (req, res) => {
   try {
     res.status(200).send("Node js");
   } catch (error) {
     res.status(500).send(error);
   }
 });
-app.get("/chart-data-pequena", async (req, res) => {
+app.use("/chart-data-pequena", async (req, res) => {
   await client.connect();
 
   await client.db("admin").command({ ping: 1 });
@@ -42,7 +42,7 @@ app.get("/chart-data-pequena", async (req, res) => {
   }
 });
 
-app.get("/chart-data-media", async (req, res) => {
+app.use("/chart-data-media", async (req, res) => {
   await client.connect();
 
   await client.db("admin").command({ ping: 1 });
@@ -63,7 +63,7 @@ app.get("/chart-data-media", async (req, res) => {
   }
 });
 
-app.get("/chart-data-grande", async (req, res) => {
+app.use("/chart-data-grande", async (req, res) => {
   await client.connect();
 
   await client.db("admin").command({ ping: 1 });
