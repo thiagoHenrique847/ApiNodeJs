@@ -80,8 +80,15 @@ app.get("/chart-data-grande", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3300;
-app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3300;
+
+
+app.listen({
+  host:"0.0.0.0",
+  port:PORT
+}).then(() =>{
+  console.log(`Servidor rodando na porta ${PORT}`)
+})
 
 async function Delete() {
   await client.connect();
