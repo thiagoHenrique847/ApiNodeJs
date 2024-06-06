@@ -3,7 +3,7 @@ const app = express();
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const cors = require("cors");
 // const uri = process.env.MONGODB_URI;
-const uri = process.env.MONGODB_URI;
+const uri = "mongodb+srv://thiagocontato1232:MMmLvwm1aLHeV61u@cluster0.ob27bb5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -21,7 +21,7 @@ app.use("/", async (req, res) => {
     res.status(500).send(error);
   }
 });
-app.use("/chart-data-pequena", async (req, res) => {
+app.get("/chart-data-pequena", async (req, res) => {
   await client.connect();
 
   await client.db("admin").command({ ping: 1 });
@@ -42,7 +42,7 @@ app.use("/chart-data-pequena", async (req, res) => {
   }
 });
 
-app.use("/chart-data-media", async (req, res) => {
+app.get("/chart-data-media", async (req, res) => {
   await client.connect();
 
   await client.db("admin").command({ ping: 1 });
@@ -63,7 +63,7 @@ app.use("/chart-data-media", async (req, res) => {
   }
 });
 
-app.use("/chart-data-grande", async (req, res) => {
+app.get("/chart-data-grande", async (req, res) => {
   await client.connect();
 
   await client.db("admin").command({ ping: 1 });
