@@ -14,7 +14,7 @@ const client = new MongoClient(uri, {
 });
 app.use(cors());
 
-app.use("/", async (req, res) => {
+app.get("/", async (req, res) => {
   try {
     res.status(200).send("Node js");
   } catch (error) {
