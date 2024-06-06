@@ -58,7 +58,10 @@ app.get("/chart-data-media", async (req, res) => {
     .toArray();
 
   try {
-    res.status(200).send(collection);
+    res.status(200).json({
+      success:true,
+      collection
+    });
   } catch (error) {
     res.status(500).send(error);
   } finally {
@@ -79,7 +82,10 @@ app.get("/chart-data-grande", async (req, res) => {
     .toArray();
 
   try {
-    res.status(200).send(collection);
+    res.status(200).json({
+      success:true,
+      collection
+    });
   } catch (error) {
     res.status(500).send(error);
   } finally {
