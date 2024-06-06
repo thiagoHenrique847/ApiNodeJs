@@ -74,7 +74,7 @@ app.get("/chart-data-pequena", async (req, res) => {
 
 app.get("/chart-data-media", async (req, res) => {
   try {
-    const collection = await db.collection("PecasMedias").find({}).toArray();
+    const collection = await db.collection("PecasMedias").find({}).toArray()
     const lengthCollen = collection.length
     res.status(200).json({
       success: true,
