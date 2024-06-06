@@ -1,9 +1,9 @@
-const express = require("express");
-const app = express();
-const { MongoClient, ServerApiVersion } = require("mongodb");
-const cors = require("cors");
-// const uri = process.env.MONGODB_URI;
-const uri = process.env.MONGODB_URI;
+const express = require("express"); // Importação das bibliotecas
+const { MongoClient, ServerApiVersion } = require("mongodb"); // Importação das bibliotecas
+const app = express(); // // Importação das bibliotecas
+const cors = require("cors"); // Importação das bibliotecas
+
+const uri = process.env.MONGODB_URI; // Importando minha URL de conexão do file .env
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -12,9 +12,10 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
 });
+// Conexão com o banco de dados MONGODB 
+
 
 app.use(cors());
-
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
 
@@ -32,10 +33,11 @@ app.use(function (req, res, next) {
 
   next();
 });
+// Configuração da API
 
 let db;
 
-// Connect to MongoDB once at the start
+// Função para conectar com o Banco de Dados MONGODB
 async function connectToMongo() {
   try {
     await client.connect();
@@ -46,10 +48,10 @@ async function connectToMongo() {
     process.exit(1); // Exit the application if the connection fails
   }
 }
-
-// Call the connectToMongo function when the application starts
 connectToMongo();
 
+
+// Url padrão para a API
 app.get("/", async (req, res) => {
   try {
     res.status(200).send("Node js");
@@ -58,6 +60,7 @@ app.get("/", async (req, res) => {
   }
 });
 
+// Url para retornar todos os dados de Peças Pequenas
 app.get("/chart-data-pequena", async (req, res) => {
   try {
     const collection = await db.collection("PecasPequenas").find({}).toArray();
@@ -72,6 +75,7 @@ app.get("/chart-data-pequena", async (req, res) => {
   }
 });
 
+// Url para retornar todos os dados de Peças Médias
 app.get("/chart-data-media", async (req, res) => {
   try {
     const collection = await db.collection("PecasMedias").find({}).toArray()
@@ -86,6 +90,7 @@ app.get("/chart-data-media", async (req, res) => {
   }
 });
 
+// Url para retornar todos os dados de Peças Grandes
 app.get("/chart-data-grande", async (req, res) => {
   try {
     const collection = await db.collection("PecasGrandes").find({}).toArray();
@@ -100,8 +105,9 @@ app.get("/chart-data-grande", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3300;
 
+// Configuração para rodar localmente a API
+const PORT = process.env.PORT || 3300;
 app.listen(
   {
     host: "0.0.0.0",
