@@ -3,7 +3,7 @@ const app = express();
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const cors = require("cors");
 // const uri = process.env.MONGODB_URI;
-const uri = process.env.MONGODB_URI
+const uri = process.env.MONGODB_URI;
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -14,6 +14,24 @@ const client = new MongoClient(uri, {
 });
 
 app.use(cors());
+
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+
+  res.setHeader("Access-Control-Allow-Credentials", true);
+
+  next();
+});
 
 let db;
 
@@ -43,9 +61,11 @@ app.get("/", async (req, res) => {
 app.get("/chart-data-pequena", async (req, res) => {
   try {
     const collection = await db.collection("PecasPequenas").find({}).toArray();
+    const lengthCollen = collection.length
     res.status(200).json({
       success: true,
-      collection
+      collection,
+      lengthCollen
     });
   } catch (error) {
     res.status(500).send(error);
@@ -55,9 +75,11 @@ app.get("/chart-data-pequena", async (req, res) => {
 app.get("/chart-data-media", async (req, res) => {
   try {
     const collection = await db.collection("PecasMedias").find({}).toArray();
+    const lengthCollen = collection.length
     res.status(200).json({
       success: true,
-      collection
+      collection,
+      lengthCollen
     });
   } catch (error) {
     res.status(500).send(error);
@@ -67,9 +89,11 @@ app.get("/chart-data-media", async (req, res) => {
 app.get("/chart-data-grande", async (req, res) => {
   try {
     const collection = await db.collection("PecasGrandes").find({}).toArray();
+    const lengthCollen = collection.length
     res.status(200).json({
       success: true,
-      collection
+      collection,
+      lengthCollen
     });
   } catch (error) {
     res.status(500).send(error);
