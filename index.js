@@ -34,8 +34,10 @@ app.get("/chart-data-pequena", async (req, res) => {
     .toArray();
 
   try {
-    res.json(collection)
-    res.status(200)
+    res.status(200).json({
+      success:true,
+      collection
+    })
   } catch (error) {
     res.status(500).send(error);
   } finally {
