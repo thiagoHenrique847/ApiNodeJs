@@ -12,7 +12,25 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
 });
+
 app.use(cors());
+
+let db;
+
+// Connect to MongoDB once at the start
+async function connectToMongo() {
+  try {
+    await client.connect();
+    console.log("Connected successfully to MongoDB server");
+    db = client.db("AutomationMange");
+  } catch (err) {
+    console.error("Failed to connect to MongoDB", err);
+    process.exit(1); // Exit the application if the connection fails
+  }
+}
+
+// Call the connectToMongo function when the application starts
+connectToMongo();
 
 app.get("/", async (req, res) => {
   try {
@@ -21,75 +39,40 @@ app.get("/", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
 app.get("/chart-data-pequena", async (req, res) => {
-  await client.connect();
-
-  await client.db("admin").command({ ping: 1 });
-
-  const database = client.db("AutomationMange");
-
-  const collection = await database
-    .collection("PecasPequenas")
-    .find({})
-    .toArray();
-
   try {
+    const collection = await db.collection("PecasPequenas").find({}).toArray();
     res.status(200).json({
-      success:true,
+      success: true,
       collection
-    })
+    });
   } catch (error) {
     res.status(500).send(error);
-  } finally {
-    await client.close();
   }
 });
 
 app.get("/chart-data-media", async (req, res) => {
-  await client.connect();
-
-  await client.db("admin").command({ ping: 1 });
-
-  const database = client.db("AutomationMange");
-
-  const collection = await database
-    .collection("PecasMedias")
-    .find({})
-    .toArray();
-
   try {
+    const collection = await db.collection("PecasMedias").find({}).toArray();
     res.status(200).json({
-      success:true,
+      success: true,
       collection
     });
   } catch (error) {
     res.status(500).send(error);
-  } finally {
-    await client.close();
   }
 });
 
 app.get("/chart-data-grande", async (req, res) => {
-  await client.connect();
-
-  await client.db("admin").command({ ping: 1 });
-
-  const database = client.db("AutomationMange");
-
-  const collection = await database
-    .collection("PecasGrandes")
-    .find({})
-    .toArray();
-
   try {
+    const collection = await db.collection("PecasGrandes").find({}).toArray();
     res.status(200).json({
-      success:true,
+      success: true,
       collection
     });
   } catch (error) {
     res.status(500).send(error);
-  } finally {
-    await client.close();
   }
 });
 
@@ -106,17 +89,15 @@ app.listen(
 );
 
 async function Delete() {
-  await client.connect();
-
-  await client.db("admin").command({ ping: 1 });
-
-  const database = client.db("Teste");
-  await database
-    .collection("Pecas")
-    .deleteMany({})
-    .then(() => {
-      console.log("Sucesso");
-    })
-    .catch((err) => console.log(err));
+  try {
+    await client.connect();
+    const database = client.db("Teste");
+    await database.collection("Pecas").deleteMany({});
+    console.log("Sucesso");
+  } catch (err) {
+    console.log(err);
+  } finally {
+    await client.close();
+  }
 }
-// Delete()
+// Delete();
