@@ -40,7 +40,9 @@ app.get("/chart-data-pequena", async (req, res) => {
     })
   } catch (error) {
     res.status(500).send(error);
-  } 
+  } finally {
+    await client.close();
+  }
 });
 
 app.get("/chart-data-media", async (req, res) => {
@@ -62,7 +64,9 @@ app.get("/chart-data-media", async (req, res) => {
     });
   } catch (error) {
     res.status(500).send(error);
-  } 
+  } finally {
+    await client.close();
+  }
 });
 
 app.get("/chart-data-grande", async (req, res) => {
@@ -84,7 +88,9 @@ app.get("/chart-data-grande", async (req, res) => {
     });
   } catch (error) {
     res.status(500).send(error);
-  } 
+  } finally {
+    await client.close();
+  }
 });
 
 const PORT = process.env.PORT || 3300;
